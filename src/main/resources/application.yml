@@ -1,19 +1,19 @@
 spring:
   application:
     name: springboot-starter
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/mydatabase #create the database with appropriate name
-#    username: root
-#    password:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#  jpa:
-#    hibernate.ddl-auto: none
-#    #generate-ddl: false #Disable schema management
-#    #show-sql: true #Log SQL queries
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.MySQL8Dialect
-#        #generate_statistics: true #Monitor Hibernate performance
+  datasource:
+    url: jdbc:mysql://localhost:3306/user_details_db #create the database with appropriate name
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate.ddl-auto: update
+    #generate-ddl: false #Disable schema management
+    show-sql: true #Log SQL queries
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        #generate_statistics: true #Monitor Hibernate performance
   security:
     admin:
       name: admin
@@ -22,6 +22,8 @@ spring:
     host: localhost
     port: 6379
     #password:
+    cache:
+      time-to-live: 60 #minutes
 
 server:
   port: 8080
@@ -38,7 +40,8 @@ management:
 
 logging:
   level:
-    org.springframework.security: DEBUG
+    org.springframework.security: INFO
+    org.springframework.web: INFO
 
 springdoc:
   api-docs:

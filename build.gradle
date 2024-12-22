@@ -28,13 +28,15 @@ dependencies {
 	// ------------- Starter Dependencies --------------------
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation('org.springframework:spring-webmvc')
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	// ------------- AOP Dependencies --------------------
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 
-	// ------------- Database Dependencies --------------------
-	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	//implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
+	//------------- Database Dependencies --------------------
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
 
 	// ------------- Redis Dependencies --------------------
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'

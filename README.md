@@ -1,11 +1,11 @@
 # springboot-starter
 
-This is a **Spring Boot Starter Project** configured with essential features such as **Spring Security**, **Redis**, and **OpenAPI** (Swagger) documentation. It provides a base template for quickly setting up Java applications with commonly used configurations.
+This is a **Spring Boot Project** configured with Redis caching using annotations. It demonstrates how to quickly set up Java applications with caching support.
 
 ## Features
 - **Spring Security** for authentication and authorization
 - **Redis** for caching and data storage (configured with default settings)
-- **MySQL** for relational database support (optional configuration)
+- **MySQL** for relational database support
 - **OpenAPI** for API documentation using Swagger
 - **Actuator** for application monitoring
 
@@ -13,19 +13,19 @@ This is a **Spring Boot Starter Project** configured with essential features suc
 Before running the application, ensure that you have the following installed:
 - **JDK 17** or higher
 - **Gradle** (depending on your build tool)
-- **Redis** server (Optional)
-- **MySQL** server (Optional)
+- **Redis** server 
+- **MySQL** server 
 
 ## Setup and Installation
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/snehar98/springboot-starter-project.git
-cd springboot-starter-project
+git git@github.com:snehar98/springboot-redis-caching.git
+cd springboot-redis-caching
 ```
 
-### 2. Configure Redis (Optional)
+### 2. Configure Redis 
 If you're using a Redis server locally or remotely, you can configure it in the application.yml file.
 
 application.yml
@@ -36,16 +36,13 @@ spring:
     port: 6379        # Default Redis port (can be left out if using the default)
     password: yourpassword  # Optional: provide the password if Redis is secured
     timeout: 2000ms    # Optional: connection timeout
-    jedis: #If Jedis connection pool is used
-      pool:
-        max-active: 10  # Maximum number of connections in the pool
-        max-idle: 5     # Maximum number of idle connections in the pool
-        min-idle: 1     # Minimum number of idle connections in the pool
+    cache:
+      time-to-live: 60 #minutes
 ```
 Add required classes based on requirement
 
 ### 3. Configure MySQL
-If you want to use MySQL as your database, uncomment the following configurations in the code:
+To use MySQL as your database, uncomment the following configurations in the code:
 
 build.gradle
 ```bash
@@ -55,7 +52,7 @@ build.gradle
 application.yml
 ```bash
   datasource:
-    url: jdbc:mysql://localhost:3306/mydatabase #create the database with appropriate name
+    url: jdbc:mysql://localhost:3306/user_details_db #create the database with appropriate name
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -98,18 +95,13 @@ http://localhost:8080/v3/api-docs
 ```bash
  @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeRequests()
-                .requestMatchers("/swagger-ui/*", "/v3/api-docs","/v3/api-docs/*", "/swagger-resources/*", "/webjars/*","/actuator/*","/error",
-                        "/favicon.ico")
-                .permitAll()
-                .requestMatchers("/admin/*")
-                .permitAll()
-                .anyRequest()
-                .authenticated();;
-        // Allow all other paths
-
+        http.httpBasic(withDefaults())
+                .csrf(AbstractHttpConfigurer::disable) 
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/swagger-ui/*", "/v3/api-docs", "/v3/api-docs/*", "/swagger-resources/*", "/webjars/*", "/actuator/*", "/error", "/favicon.ico", "/users/*", "/users/*/*").permitAll() // Permitting specific URLs
+                        .requestMatchers("/admin/*", "/admin/*/*").authenticated() // Restricting access to /admin/* to authenticated users
+                        .anyRequest().authenticated() // All other requests require authentication
+                );
         return http.build();
     }
 ```
@@ -121,7 +113,12 @@ http://localhost:8080/v3/api-docs
 ./gradlew bootRun
 ```
 
-### 7.JaCoCo Test Coverage Report
+### 7.Testing the application
+To test the endpoints, use the postman collection added to the root directory
+
+**springboot-redis-caching.postman_collection.json**
+
+### 8.JaCoCo Test Coverage Report
 To generate the JaCoCo test report:
 ```bash
 gradle clean test jacocoTestReport
