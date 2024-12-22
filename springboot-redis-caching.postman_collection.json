@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "e54aeb39-83b4-4d47-817d-2267dbd4dcb2",
+		"name": "springboot-redis-caching",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19432739"
+	},
+	"item": [
+		{
+			"name": "ClearAllCache",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "167XFop6dxcfyD1wQF8d",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/clearAllCache",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"clearAllCache"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteUSer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const encodedCredentials = btoa(\"adminUsername:adminPassword\");",
+							"pm.request.headers.add({",
+							"  key: \"Authorization\",",
+							"  value: `Basic ${encodedCredentials}`",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "167XFop6dxcfyD1wQF8d",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/deleteUser/78737a01-8894-4fa1-9caa-157a76338fc2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"deleteUser",
+						"78737a01-8894-4fa1-9caa-157a76338fc2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddUser",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userName\": \"Ammu\",\n  \"email\": \"test@gmail.com\",\n  \"phoneNumber\": null,\n  \"address\": \"101 Pine St, Star City\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/addUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"addUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetUserDetails",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users/getUser/4df7d1f6-aa35-4ad5-98b3-af4bf4a3df98",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"getUser",
+						"4df7d1f6-aa35-4ad5-98b3-af4bf4a3df98"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateUserDetails",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"Alison\",\n    \"email\": \"al.robinson@example.com\",\n    \"phoneNumber\": \"1122334455\",\n    \"address\": \"101 Pine St, Star City\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/updateUser/78737a01-8894-4fa1-9caa-157a76338fc2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"updateUser",
+						"78737a01-8894-4fa1-9caa-157a76338fc2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
