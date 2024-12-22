@@ -1,4 +1,4 @@
-# springboot-starter
+# springboot-redis-caching
 
 This is a **Spring Boot Project** configured with Redis caching using annotations. It demonstrates how to quickly set up Java applications with caching support.
 
